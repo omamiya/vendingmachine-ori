@@ -5,5 +5,5 @@ package App.Product;
  */
 public interface IProduct {
     String getProductName();
-    double getProductPrice();
+    Integer getProductPrice();
 }
