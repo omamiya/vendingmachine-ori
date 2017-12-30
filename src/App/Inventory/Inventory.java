@@ -16,9 +16,7 @@ import java.util.*;
     }
 
     @Override
-    public Collection<String> getProductNamesList() {
-        return inventory.keySet();
-    }
+    public Collection<String> getProductNamesList() { return this.inventory.keySet(); }
 
     @Override
     public IProduct getProductByName(String productName) {
@@ -29,23 +27,24 @@ import java.util.*;
     public Status addProductToInventory(IProduct product, Integer amount) {
         String productName ;
         productName = product.getProductName();
-        if (this.inventory.containsKey(productName)){
-            InventoryProduct ip = this.inventory.get(productName);
-            ip.amount += amount;
-        }
+        if (this.inventory.containsKey(productName)){ return new Status("The product is already exist"); }
         else {
             InventoryProduct ip = new InventoryProduct(product, amount);
-            this.inventory.put(product.getProductName(), ip);
+            this.inventory.put(productName, ip);
+            return new Status(productName + "has been added successfully");
         }
-        return new Status("Ok");
     }
 
      @Override
      public Status updateProductAmount(IProduct product, Integer amount) {
-         String productName = product.getProductName();
-         InventoryProduct ip = this.inventory.get(productName);
-         ip.amount += amount;
-         return new Status("Ok");
+
+        String productName = product.getProductName();
+        InventoryProduct ip = this.inventory.get(productName);
+        if(ip.amount + amount < 0){
+            return new Status("error");
+        }
+        ip.amount += amount;
+        return new Status("Ok");
      }
 
      @Override

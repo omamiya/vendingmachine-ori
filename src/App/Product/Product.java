@@ -5,10 +5,10 @@ package App.Product;
  */
 public class Product implements IProduct {
     String name ;
-    double price ;
+    Integer price ;
 
 
-    public Product(String name, double price) {
+    Product(String name, Integer price) {
         this.name = name ;
         this.price = price ;
     }
@@ -20,7 +20,7 @@ public class Product implements IProduct {
     }
 
     @Override
-    public double getProductPrice() {
+    public Integer getProductPrice() {
         return this.price;
     }
 }
