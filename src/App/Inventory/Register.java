@@ -1,9 +1,8 @@
 package App.Inventory;
 
-import App.Coin;
+import App.Money.Coin;
 
 import java.util.Collection;
-import java.util.DoubleSummaryStatistics;
 import java.util.HashMap;
 import java.util.Map;
 

@@ -1,6 +1,6 @@
 package App.Inventory;
 
-import App.Coin;
+import App.Money.Coin;
 
 import java.util.Collection;
 
