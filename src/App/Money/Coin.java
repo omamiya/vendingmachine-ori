@@ -1,4 +1,4 @@
-package App;
+package App.Money;
 
 /**
  * Created by orymamia on 30/12/2017.
@@ -19,7 +19,5 @@ public class Coin implements ICoin{
         return this.type.getValue();
     }
 }
-
-
 
 

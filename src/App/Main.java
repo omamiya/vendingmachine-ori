@@ -2,6 +2,9 @@ package App;
 
 import App.Inventory.IInventory;
 import App.Inventory.InventoryFactory;
+import App.Money.CoinFactory;
+import App.Money.CoinType;
+import App.Money.ICoin;
 import App.Product.IProduct;
 import App.Product.ProductFactory;
 
@@ -27,6 +30,23 @@ public class Main {
         drinksInventory.getProductNamesList();
         CoinFactory cf = new CoinFactory();
         ICoin penny = cf.createCoin(CoinType.PENNY);
+        ICoin dollar = cf.createCoin(CoinType.DOLLAR);
+        System.out.println(penny.getValue());
+        System.out.println(dollar.getValue());
+        System.out.println(dollar.getType());
+
+        Machine drinksMachine = new Machine();
+        System.out.println(drinksMachine.getMachineBalance().getTotalBalance());
+        System.out.println(drinksMachine.getCustomerBalance().getTotalBalance());
+
+
+
+
+
+
+
+
+
 
 
 
