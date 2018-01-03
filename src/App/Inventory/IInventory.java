@@ -19,5 +19,4 @@ public interface IInventory {
 
     Boolean isProductAvailable(IProduct product);
 
-
 }

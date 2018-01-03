@@ -3,7 +3,7 @@ package App.Money;
 /**
  * Created by orymamia on 30/12/2017.
  */
-public enum CoinType {
+public enum UsdCoinType {
     PENNY(1),
     NICKEL(5),
     DIME(10),
@@ -12,7 +12,7 @@ public enum CoinType {
 
     private int value;
 
-    private CoinType(int value) {
+    UsdCoinType(int value) {
         this.value = value;
     }
     public int getValue() {

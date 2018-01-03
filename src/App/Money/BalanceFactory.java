@@ -7,5 +7,5 @@ import java.util.HashMap;
  */
 public class BalanceFactory {
     public Balance createCustomerBalance(){ return new Balance(); }
-    public Balance createMachineBalance(HashMap<ICoin, Integer> balance){ return new Balance(balance); }
+    public Balance createMachineBalance(HashMap<Coin, Integer> balance){ return new Balance(balance); }
 }

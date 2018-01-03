@@ -27,11 +27,11 @@ import java.util.*;
     public Status addProductToInventory(IProduct product, Integer amount) {
         String productName ;
         productName = product.getProductName();
-        if (this.inventory.containsKey(productName)){ return new Status("The product is already exist"); }
+        if (this.inventory.containsKey(productName)){ return new Status("The product is already exist", false); }
         else {
             InventoryProduct ip = new InventoryProduct(product, amount);
             this.inventory.put(productName, ip);
-            return new Status(productName + "has been added successfully");
+            return new Status(productName + "has been added successfully", true);
         }
     }
 
@@ -41,10 +41,10 @@ import java.util.*;
         String productName = product.getProductName();
         InventoryProduct ip = this.inventory.get(productName);
         if(ip.amount + amount < 0){
-            return new Status("error");
+            return new Status("error", false);
         }
         ip.amount += amount;
-        return new Status("Ok");
+        return new Status("Ok", true);
      }
 
      @Override

@@ -2,9 +2,9 @@ package App;
 
 import App.Inventory.IInventory;
 import App.Inventory.InventoryFactory;
-import App.Money.CoinFactory;
-import App.Money.CoinType;
-import App.Money.ICoin;
+import App.Money.Coin;
+import App.Money.IBalance;
+import App.Money.UsdCoinType;
 import App.Product.IProduct;
 import App.Product.ProductFactory;
 
@@ -28,25 +28,13 @@ public class Main {
         System.out.println(drinksInventory.isProductAvailable(sprite).toString());
         System.out.println(drinksInventory.updateProductAmount(sprite, -1).message);
         drinksInventory.getProductNamesList();
-        CoinFactory cf = new CoinFactory();
-        ICoin penny = cf.createCoin(CoinType.PENNY);
-        ICoin dollar = cf.createCoin(CoinType.DOLLAR);
-        System.out.println(penny.getValue());
-        System.out.println(dollar.getValue());
-        System.out.println(dollar.getType());
 
-        Machine drinksMachine = new Machine();
+        IMachine drinksMachine = new Machine();
         System.out.println(drinksMachine.getMachineBalance().getTotalBalance());
         System.out.println(drinksMachine.getCustomerBalance().getTotalBalance());
-
-
-
-
-
-
-
-
-
+        Coin penny = new Coin(UsdCoinType.PENNY);
+        IBalance customerBalance = drinksMachine.getCustomerBalance();
+        drinksMachine.insertCoin(penny, customerBalance);
 
 
 

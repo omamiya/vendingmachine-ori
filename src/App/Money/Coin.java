@@ -3,18 +3,16 @@ package App.Money;
 /**
  * Created by orymamia on 30/12/2017.
  */
-public class Coin implements ICoin{
-    CoinType type;
+public class Coin {
+    private UsdCoinType type;
 
-    Coin(CoinType type) {
+    public Coin(UsdCoinType type) {
         this.type = type;
 
     }
 
-    @Override
-    public CoinType getType(){ return this.type; }
+    public UsdCoinType getType(){ return this.type; }
 
-    @Override
     public Integer getValue() {
         return this.type.getValue();
     }
