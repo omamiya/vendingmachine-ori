@@ -1,7 +1,9 @@
 package App;
 
+import App.Inventory.IInventory;
 import App.Money.Balance;
-import App.Money.ICoin;
+import App.Money.Coin;
+import App.Money.IBalance;
 import App.Product.IProduct;
 
 /**
@@ -10,6 +12,7 @@ import App.Product.IProduct;
 public interface IMachine {
     Balance getMachineBalance();
     Balance getCustomerBalance();
-    Status insertCoin(ICoin coin);
-    Status selectProduct(Balance customerBalance, Balance machineBalance, IProduct product);
+    Status insertCoin(Coin coin, IBalance customerBalance);
+    Status verifyPurchase(IProduct product, IBalance customerBalance, IBalance machineBalance, IInventory inventory);
+
 }
