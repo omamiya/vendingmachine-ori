@@ -1,6 +1,7 @@
 package App.Inventory;
 
 import App.Product.IProduct;
+import App.Product.Product;
 import App.Status;
 
 import java.util.*;
@@ -16,7 +17,13 @@ import java.util.*;
     }
 
     @Override
-    public Collection<String> getProductNamesList() { return this.inventory.keySet(); }
+    public List<IProduct> getProductsList() {
+        List<IProduct> products = new ArrayList<>();
+        for(InventoryProduct ip : this.inventory.values()){
+          products.add(ip.product);
+        }
+        return products;
+    }
 
     @Override
     public IProduct getProductByName(String productName) {

@@ -13,9 +13,9 @@ public interface IBalance {
     Integer getTotalBalance();
     Status addCoin(Coin coin);
     Status reduceCoin(Coin coin);
-    Integer getAmountOfCoinType(Balance balance, UsdCoinType usdCoinType);
+    Integer getAmountOfCoinType(Coin coin);
+    void addBalance(IBalance balanceToAdd);
 }
-
 
 //select product -> insert coins :
 //1. ok

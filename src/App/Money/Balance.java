@@ -44,14 +44,35 @@ Map<Coin, Integer> balance;
 
     @Override
     public Status reduceCoin(Coin coin) {
-        updateBalance(coin, -1);
-        return new Status("Ok", true);    }
-
-    @Override
-    public Integer getAmountOfCoinType(Balance balance, UsdCoinType usdCoinType) {
-        return null;
+        boolean status = false;
+        String message;
+        if (this.balance.get(coin) <= 0){
+            message = "error";
+            status = false;
+        }
+        else {
+            updateBalance(coin, -1);
+            message = "ok";
+            status = true;
+        }
+        return new Status(message, status);
     }
 
+    @Override
+    public Integer getAmountOfCoinType(Coin coin) {
+        return this.balance.get(coin);
+    }
+
+    @Override
+    public void addBalance(IBalance balanceToAdd) {
+        Integer amountForCoin;
+        for (UsdCoinType coinType : UsdCoinType.values()) {
+            Coin coinToAdd = new Coin(coinType);
+            amountForCoin = balanceToAdd.getAmountOfCoinType(coinToAdd);
+
+            updateBalance(coinToAdd, amountForCoin);
+        }
+    }
     private void updateBalance(Coin coin, Integer dif){
         Integer amount = this.balance.containsKey(coin) ? this.balance.get(coin) : 0;
         this.balance.put(coin, amount + dif);

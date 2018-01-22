@@ -6,8 +6,11 @@ import java.util.Collection;
 
 public class ChangeCalculator {
 
-    public Collection<Coin> calculateChange(IProduct product, IBalance payment, IBalance machineBalance) {
-        return null;
+    public IBalance calculateChange(IProduct product, IBalance payment, IBalance machineBalance) {
+
+        //calculate the coins should be return
+
+        return new Balance();
     }
 
     public boolean isPaymentMissing(Integer price, Integer payment){

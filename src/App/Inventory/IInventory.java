@@ -3,13 +3,13 @@ package App.Inventory;
 import App.Product.IProduct;
 import App.Status;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by orymamia on 24/12/2017.
  */
 public interface IInventory {
-    Collection<String> getProductNamesList();
+    List<IProduct> getProductsList();
 
     IProduct getProductByName(String productName);
 
