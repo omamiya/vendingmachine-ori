@@ -29,8 +29,7 @@ public class CliOperator {
             collectMoney(this.machineProvider.getMachine().getCustomerBalance());
             this.machineProvider.getMachine().purchaseProduct(product);
         }
-
-
+        this.reader.close();
     }
 
     String login(){
@@ -44,7 +43,7 @@ public class CliOperator {
 
     }
 
-    public IProduct getProductSelectionFromUser(List<IProduct> products){
+    IProduct getProductSelectionFromUser(List<IProduct> products){
         System.out.println("Enter a number: ");
         int selection = this.reader.nextInt();
         IProduct product = products.get(selection - 1);
@@ -55,16 +54,16 @@ public class CliOperator {
     void collectMoney(IBalance customerBalance){
         int selection = 0;
         Coin[] coins;
-        coins = new Coin[]{new Coin(UsdCoinType.PENNY), new Coin(UsdCoinType.NICKEL), new Coin(UsdCoinType.DIME), new Coin(UsdCoinType.QUARTER), new Coin(UsdCoinType.DOLLAR)};
-        String[] usdCoinTypes = {"Penny", "Nickel", "Dime", "Quarter", "Dollar", "SUBMIT"};
+        String[] coinTypesNames = {"Penny", "Nickel", "Dime", "Quarter", "Dollar", "SUBMIT"};
         System.out.println("Please insert money and submit after complete");
-        for (int i = 0 ; i < usdCoinTypes.length ; i++){
-            System.out.println(i + ". " + usdCoinTypes[i]);
+        for (int i = 0 ; i < coinTypesNames.length ; i++){
+            System.out.println(i + ". " + coinTypesNames[i]);
         }
         while(selection != 5){
             selection = this.reader.nextInt();
             if(selection != 5){
-                customerBalance.addCoin(coins[selection]);
+                UsdCoinType usdCoinType = UsdCoinType.valueOf(coinTypesNames[selection].toUpperCase());
+                customerBalance.addCoin(usdCoinType);
                 System.out.println("Total: " + customerBalance.getTotalBalance());
             }
         }

@@ -11,9 +11,9 @@ import java.util.Map;
  */
 public interface IBalance {
     Integer getTotalBalance();
-    Status addCoin(Coin coin);
-    Status reduceCoin(Coin coin);
-    Integer getAmountOfCoinType(Coin coin);
+    Status addCoin(UsdCoinType usdCoinType);
+    Status reduceCoin(UsdCoinType usdCoinType);
+    Integer getAmountOfCoinType(UsdCoinType usdCoinType);
     void addBalance(IBalance balanceToAdd);
 }
 

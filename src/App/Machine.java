@@ -38,13 +38,13 @@ public class Machine implements IMachine, IMachineAdmin{
 
     private IBalance createDefaultBalance(){
         BalanceFactory bf = new BalanceFactory();
-        HashMap<Coin, Integer> defaultBalance = new HashMap<>();
+        HashMap<UsdCoinType, Integer> defaultBalance = new HashMap<>();
 
-        defaultBalance.put(new Coin(UsdCoinType.PENNY), 100);
-        defaultBalance.put(new Coin(UsdCoinType.NICKEL), 100);
-        defaultBalance.put(new Coin(UsdCoinType.DIME), 100);
-        defaultBalance.put(new Coin(UsdCoinType.QUARTER), 100);
-        defaultBalance.put(new Coin(UsdCoinType.DOLLAR), 100);
+        defaultBalance.put(UsdCoinType.PENNY, 100);
+        defaultBalance.put(UsdCoinType.NICKEL, 100);
+        defaultBalance.put(UsdCoinType.DIME, 100);
+        defaultBalance.put(UsdCoinType.QUARTER, 100);
+        defaultBalance.put(UsdCoinType.DOLLAR, 100);
 
         return bf.createMachineBalance(defaultBalance);
     }
