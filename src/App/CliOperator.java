@@ -68,6 +68,7 @@ public class CliOperator {
             }
         }
         System.out.println("Thank You");
+
     }
 
     void printMenu(List<IProduct> products){

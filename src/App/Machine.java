@@ -40,11 +40,11 @@ public class Machine implements IMachine, IMachineAdmin{
         BalanceFactory bf = new BalanceFactory();
         HashMap<UsdCoinType, Integer> defaultBalance = new HashMap<>();
 
-        defaultBalance.put(UsdCoinType.PENNY, 100);
-        defaultBalance.put(UsdCoinType.NICKEL, 100);
-        defaultBalance.put(UsdCoinType.DIME, 100);
-        defaultBalance.put(UsdCoinType.QUARTER, 100);
-        defaultBalance.put(UsdCoinType.DOLLAR, 100);
+        defaultBalance.put(UsdCoinType.PENNY, 1);
+        defaultBalance.put(UsdCoinType.NICKEL, 1);
+        defaultBalance.put(UsdCoinType.DIME, 1);
+        defaultBalance.put(UsdCoinType.QUARTER, 1);
+        defaultBalance.put(UsdCoinType.DOLLAR, 1);
 
         return bf.createMachineBalance(defaultBalance);
     }

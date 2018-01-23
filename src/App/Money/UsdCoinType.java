@@ -4,11 +4,11 @@ package App.Money;
  * Created by orymamia on 30/12/2017.
  */
 public enum UsdCoinType {
-    PENNY(1),
-    NICKEL(5),
-    DIME(10),
+    DOLLAR(100),
     QUARTER(25),
-    DOLLAR(100);
+    DIME(10),
+    NICKEL(5),
+    PENNY(1);
 
     private int value;
 

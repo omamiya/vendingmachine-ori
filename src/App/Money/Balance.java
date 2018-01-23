@@ -72,7 +72,9 @@ Map<UsdCoinType, Integer> balance;
             updateBalance(coinType, amountForCoin);
         }
     }
-    private void updateBalance(UsdCoinType usdCoinType, Integer dif){
+
+    @Override
+    public void updateBalance(UsdCoinType usdCoinType, Integer dif){
         Integer amount = this.balance.containsKey(usdCoinType) ? this.balance.get(usdCoinType) : 0;
         this.balance.put(usdCoinType, amount + dif);
     }
