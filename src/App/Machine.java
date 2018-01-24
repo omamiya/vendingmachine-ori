@@ -68,12 +68,17 @@ public class Machine implements IMachine, IMachineAdmin{
     @Override
     public Status purchaseProduct(IProduct product) {
         Status status = verifyPurchase(product);
-        IBalance change = calculateChange(product);
-        isEnoughChange(change, status);
-        if (status.status){
+        IBalance change;
+        if(status.status){
+            try {
+                change = calculateChange(product);
+            } catch (NoChangeException e) {
+                return new Status("Not enough change", false);
+            }
             inventory.updateProductAmount(product, -1);
             addMoney(this.customerBalance);
             this.customerBalance = change;
+            return new Status("Ok", true);
         }
         return status;
     }
@@ -88,39 +93,21 @@ public class Machine implements IMachine, IMachineAdmin{
         boolean status = true;
 
         Integer productPrice = product.getProductPrice();
-        Integer totalPayment = this.customerBalance.getTotalBalance();
-        Integer totalMachineBalance = this.machineBalance.getTotalBalance();
-
         boolean enoughPayment = changeCalculator.isPaymentMissing(productPrice, customerBalance.getTotalBalance());
-        boolean enoughChange = changeCalculator.isEnoughChangeInMachine(productPrice, totalPayment, totalMachineBalance);
         boolean productAvailable = this.inventory.isProductAvailable(product);
 
         if (!enoughPayment){
             message = "Payment is missing";
             status = false;
-        }else if(!enoughChange) {
-            message = "Not enough change";
-            status = false;
         }else if(!productAvailable){
             message = "Product is not available";
             status = false;
         }
-
         return new Status(message, status);
-
     }
 
-    IBalance calculateChange(IProduct product) {
-        IBalance change ;
-        ChangeCalculator cc = new ChangeCalculator();
-        change = cc.calculateChange(product, this.customerBalance, this.machineBalance);
-        return change;
-    }
-
-    void isEnoughChange(IBalance chnage, Status status){
-        //check if there is enough coins in machine balance
-        status.message = "Ok";
-        status.status = true;
+    IBalance calculateChange(IProduct product) throws NoChangeException {
+        return new ChangeCalculator().calculateChange(product, this.customerBalance, this.machineBalance);
     }
 
     @Override
