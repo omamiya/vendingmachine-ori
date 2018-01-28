@@ -73,6 +73,7 @@ public class Machine implements IMachine, IMachineAdmin{
             try {
                 change = calculateChange(product);
             } catch (NoChangeException e) {
+                System.out.println("Not enough change");
                 return new Status("Not enough change", false);
             }
             inventory.updateProductAmount(product, -1);

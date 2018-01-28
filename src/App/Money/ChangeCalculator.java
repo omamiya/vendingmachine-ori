@@ -19,8 +19,6 @@ public class ChangeCalculator {
             throw new NoChangeException();
         }
         return change;
-        // what if not enough change? in terms of specific coins (for example the total chnage is 1 penny (1) and the machine
-        // balance has only nickel (5) )
     }
 
     public boolean isPaymentMissing(Integer price, Integer payment){

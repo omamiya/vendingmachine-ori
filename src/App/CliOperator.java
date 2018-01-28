@@ -8,6 +8,7 @@ import App.Product.IProduct;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by orymamia on 15/01/2018.
@@ -22,12 +23,16 @@ public class CliOperator {
 
     void runMachine() {
         String selection = login();
+        Status status;
 
-        while(selection != "exit") {
+        while(!selection.equals("exit")) {
             printMenu(this.machineProvider.getMachine().getAllProducts());
             IProduct product = getProductSelectionFromUser(this.machineProvider.getMachine().getAllProducts());
-            collectMoney(this.machineProvider.getMachine().getCustomerBalance());
+            collectMoney(this.machineProvider.getMachine().getCustomerBalance(), product);
             this.machineProvider.getMachine().purchaseProduct(product);
+            System.out.println("your change is: " + this.machineProvider.getMachine().getCustomerBalance().getTotalBalance());
+            System.out.println("buy more?");
+            selection = this.reader.next();
         }
         this.reader.close();
     }
@@ -51,26 +56,25 @@ public class CliOperator {
         return product;
     }
 
-    void collectMoney(IBalance customerBalance){
-        int selection = 0;
-        Coin[] coins;
-        String[] coinTypesNames = {"Penny", "Nickel", "Dime", "Quarter", "Dollar", "SUBMIT"};
-        System.out.println("Please insert money and submit after complete");
-        for (int i = 0 ; i < coinTypesNames.length ; i++){
-            System.out.println(i + ". " + coinTypesNames[i]);
+    void collectMoney(IBalance customerBalance, IProduct product){
+        String input;
+        System.out.println("Please one of the coins: \n");
+        for(UsdCoinType coinType : UsdCoinType.values()){
+            System.out.println(coinType.name());
         }
-        while(selection != 5){
-            selection = this.reader.nextInt();
-            if(selection != 5){
-                UsdCoinType usdCoinType = UsdCoinType.valueOf(coinTypesNames[selection].toUpperCase());
-                customerBalance.addCoin(usdCoinType);
-                System.out.println("Total: " + customerBalance.getTotalBalance());
-            }
+        System.out.println("Total: " + customerBalance.getTotalBalance());
+        while(customerBalance.getTotalBalance() < product.getProductPrice()){
+            input = this.reader.next();
+            customerBalance.addCoin(UsdCoinType.valueOf(input.toUpperCase()));
+            System.out.println("Total: " + customerBalance.getTotalBalance());
         }
-        System.out.println("Thank You");
-
+        System.out.println("Processing....");
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
-
     void printMenu(List<IProduct> products){
         int i = 1;
         System.out.println("Menu: ");
