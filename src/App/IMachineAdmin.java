@@ -1,5 +1,6 @@
 package App;
 
+import App.Money.Balance;
 import App.Money.IBalance;
 import App.Product.IProduct;
 
@@ -8,6 +9,7 @@ import App.Product.IProduct;
  */
 public interface IMachineAdmin {
 
-    Status addProducts(IProduct[] products);
+    Status addProducts(IProduct products, Integer amount);
     Status addChange(IBalance change);
+    IBalance getMachineBalance();
 }

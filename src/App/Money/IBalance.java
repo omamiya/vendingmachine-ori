@@ -16,6 +16,7 @@ public interface IBalance {
     Integer getAmountOfCoinType(UsdCoinType usdCoinType);
     void addBalance(IBalance balanceToAdd);
     void updateBalance(UsdCoinType usdCoinType, Integer dif);
+    void emptyBalance();
 }
 
 //select product -> insert coins :

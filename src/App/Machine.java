@@ -61,6 +61,12 @@ public class Machine implements IMachine, IMachineAdmin{
     }
 
     @Override
+    public Status emptyCustomerBalance() {
+        this.customerBalance.emptyBalance();
+        return new Status("Ok", true);
+    }
+
+    @Override
     public List<IProduct> getAllProducts() {
         return this.inventory.getProductsList();
     }
@@ -68,13 +74,13 @@ public class Machine implements IMachine, IMachineAdmin{
     @Override
     public Status purchaseProduct(IProduct product) {
         Status status = verifyPurchase(product);
+        String noChangeMsg = "Not enough change";
         IBalance change;
         if(status.status){
             try {
                 change = calculateChange(product);
             } catch (NoChangeException e) {
-                System.out.println("Not enough change");
-                return new Status("Not enough change", false);
+                return new Status(noChangeMsg, false);
             }
             inventory.updateProductAmount(product, -1);
             addMoney(this.customerBalance);
@@ -82,11 +88,6 @@ public class Machine implements IMachine, IMachineAdmin{
             return new Status("Ok", true);
         }
         return status;
-    }
-
-    @Override
-    public IInventory getInventoryByName(String InventoryName){
-        return this.inventory;
     }
 
     Status verifyPurchase(IProduct product) {
@@ -112,12 +113,14 @@ public class Machine implements IMachine, IMachineAdmin{
     }
 
     @Override
-    public Status addProducts(IProduct[] products) {
-        return null;
+    public Status addProducts(IProduct product, Integer amount) {
+        this.inventory.addProductToInventory(product, amount);
+        return new Status("Ok", true);
     }
 
     @Override
     public Status addChange(IBalance change) {
-        return null;
+        machineBalance.addBalance(change);
+        return new Status("Ok", true);
     }
 }

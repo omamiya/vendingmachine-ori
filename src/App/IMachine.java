@@ -11,10 +11,9 @@ import java.util.List;
  * Created by orymamia on 30/12/2017.
  */
 public interface IMachine {
-    IBalance getMachineBalance();
     IBalance getCustomerBalance();
     Status addMoney(IBalance payment);
+    Status emptyCustomerBalance();
     List<IProduct> getAllProducts();
     Status purchaseProduct(IProduct product);
-    IInventory getInventoryByName(String inventoryName);
 }

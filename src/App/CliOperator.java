@@ -22,18 +22,21 @@ public class CliOperator {
     }
 
     void runMachine() {
-        String selection = login();
-        Status status;
+        String user;
+        do{
+            user = login();
+            switch (user) {
+                case "admin":
+                    adminFlow();
+                    break;
+                case "user":
+                    userFlow();
+                    break;
+                case "exit":
+                    break;
+            }
+        } while(user != "exit");
 
-        while(!selection.equals("exit")) {
-            printMenu(this.machineProvider.getMachine().getAllProducts());
-            IProduct product = getProductSelectionFromUser(this.machineProvider.getMachine().getAllProducts());
-            collectMoney(this.machineProvider.getMachine().getCustomerBalance(), product);
-            this.machineProvider.getMachine().purchaseProduct(product);
-            System.out.println("your change is: " + this.machineProvider.getMachine().getCustomerBalance().getTotalBalance());
-            System.out.println("buy more?");
-            selection = this.reader.next();
-        }
         this.reader.close();
     }
 
@@ -70,12 +73,12 @@ public class CliOperator {
         }
         System.out.println("Processing....");
         try {
-            TimeUnit.SECONDS.sleep(3);
+            TimeUnit.SECONDS.sleep(2);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
-    void printMenu(List<IProduct> products){
+    void printProductsMenu(List<IProduct> products){
         int i = 1;
         System.out.println("Menu: ");
         System.out.println("Please select a product");
@@ -83,6 +86,50 @@ public class CliOperator {
             System.out.println(i + ". " + product.getProductName() + " " + product.getProductPrice() + " cents");
             i++;
         }
+    }
+
+    Status buyProduct(){
+        printProductsMenu(this.machineProvider.getMachine().getAllProducts());
+        IProduct product = getProductSelectionFromUser(this.machineProvider.getMachine().getAllProducts());
+        collectMoney(this.machineProvider.getMachine().getCustomerBalance(), product);
+        return this.machineProvider.getMachine().purchaseProduct(product);
+    }
+
+    void printUserMainMenu(){
+        System.out.println("1. Buy a Product");
+        System.out.println("2. Check Balance");
+        System.out.println("3. Withdraw Money");
+        System.out.println("4. Exit");
+    }
+
+    void userFlow(){
+        Status status;
+        int selection = 0;
+
+        do {
+            printUserMainMenu();
+            selection = this.reader.nextInt();
+
+            switch (selection) {
+                case 1:
+                    status = buyProduct();
+                    if (!status.status) {
+                        System.out.println(status.message + "\n");
+                    } else System.out.println("Enjoy!!! \n");
+                    break;
+                case 2:
+                    System.out.println("Your Total Balance is: " + machineProvider.getMachine().getCustomerBalance().getTotalBalance());
+                    break;
+                case 3:
+                    machineProvider.getMachine().emptyCustomerBalance();
+                    break;
+                case 4:
+                    break;
+            }
+        } while(selection != 4);
+    }
+
+    void adminFlow(){
 
     }
 
@@ -94,4 +141,6 @@ public class CliOperator {
     }
 }
 
-//How to print the menu according to the user type? Admin / Customer
+// Implement adminFlow
+// How to use the addChange?
+// How to use the addProduct

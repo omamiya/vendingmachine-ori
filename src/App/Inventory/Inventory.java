@@ -11,7 +11,7 @@ import java.util.*;
 
     Inventory(IProduct[] products) {
         for (IProduct product : products) {
-            InventoryProduct inventoryProduct = new InventoryProduct(product, 10);
+            InventoryProduct inventoryProduct = new InventoryProduct(product, 1);
             inventory.put(product.getProductName(), inventoryProduct);
         }
     }

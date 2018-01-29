@@ -18,12 +18,7 @@ Map<UsdCoinType, Integer> balance;
 
     Balance(){
         this.balance = new HashMap<>();
-
-        this.balance.put(UsdCoinType.PENNY, 0);
-        this.balance.put(UsdCoinType.NICKEL, 0);
-        this.balance.put(UsdCoinType.DIME, 0);
-        this.balance.put(UsdCoinType.QUARTER, 0);
-        this.balance.put(UsdCoinType.DOLLAR, 0);
+        this.initBalance();
     }
 
     @Override
@@ -77,5 +72,18 @@ Map<UsdCoinType, Integer> balance;
     public void updateBalance(UsdCoinType usdCoinType, Integer dif){
         Integer amount = this.balance.containsKey(usdCoinType) ? this.balance.get(usdCoinType) : 0;
         this.balance.put(usdCoinType, amount + dif);
+    }
+
+    @Override
+    public void emptyBalance() {
+        this.initBalance();
+    }
+
+    private void initBalance(){
+        this.balance.put(UsdCoinType.PENNY, 0);
+        this.balance.put(UsdCoinType.NICKEL, 0);
+        this.balance.put(UsdCoinType.DIME, 0);
+        this.balance.put(UsdCoinType.QUARTER, 0);
+        this.balance.put(UsdCoinType.DOLLAR, 0);
     }
 }
