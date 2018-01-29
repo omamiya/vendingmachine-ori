@@ -39,14 +39,14 @@ public class CliOperator {
         String[] options = {"admin", "user", "exit"};
         String selection;
         System.out.println("Please login:" + "\n" + "1. Admin" + "\n" + "2. User" + "\n" + "3. Exit");
-        selection = options[this.reader.nextInt() - 1];
+        selection = options[Integer.parseInt(this.reader.nextLine()) - 1];
         return selection;
 
     }
 
     IProduct getProductSelectionFromUser(List<IProduct> products){
         System.out.println("Enter a number: ");
-        int selection = this.reader.nextInt();
+        Integer selection = Integer.parseInt(this.reader.nextLine());
         IProduct product = products.get(selection - 1);
         System.out.println("Your selection is: " + product.getProductName() + ". Please insert " + product.getProductPrice() + "cents");
         return product;
@@ -55,13 +55,15 @@ public class CliOperator {
     void collectMoney(IProduct product){
         IBalance customerBalance = machineProvider.getMachine().getCustomerBalance();
         String input;
-        System.out.println("Please choose one of the coins: \n");
-        for(UsdCoinType coinType : UsdCoinType.values()){
-            System.out.println(coinType.name() + " - " + coinType.getValue());
+        if(customerBalance.getTotalBalance() < product.getProductPrice()){
+            System.out.println("Please choose one of the coins: \n");
+            for(UsdCoinType coinType : UsdCoinType.values()){
+                System.out.println(coinType.name() + " - " + coinType.getValue());
+            }
+            System.out.println("Total: " + customerBalance.getTotalBalance());
         }
-        System.out.println("Total: " + customerBalance.getTotalBalance());
         while(customerBalance.getTotalBalance() < product.getProductPrice()){
-            input = this.reader.next();
+            input = this.reader.nextLine();
             customerBalance.updateCoinTypeAmount(UsdCoinType.valueOf(input.toUpperCase()), 1);
             System.out.println("Total: " + customerBalance.getTotalBalance());
         }
@@ -107,11 +109,11 @@ public class CliOperator {
 
     void userFlow(){
         Status status;
-        int selection;
+        Integer selection;
 
         do {
             printUserMainMenu();
-            selection = this.reader.nextInt();
+            selection = Integer.parseInt(this.reader.nextLine());
 
             switch (selection) {
                 case 1:
@@ -133,11 +135,10 @@ public class CliOperator {
     }
 
     void adminFlow(){
-        int selection;
+        Integer selection;
         do {
             printAdminMainMenu();
-            selection = this.reader.nextInt();
-
+            selection = Integer.parseInt(this.reader.nextLine());
             switch (selection) {
                 case 1:
                     addProduct();
@@ -162,12 +163,12 @@ public class CliOperator {
         Integer price;
         Integer amount;
         System.out.println("please enter product name: ");
-        this.reader.nextLine();
+//        this.reader.nextLine(); // how to overcome the reading of the previous line
         name = this.reader.nextLine();
         System.out.println("please enter product price: ");
-        price = this.reader.nextInt();
+        price = Integer.parseInt(this.reader.nextLine());
         System.out.println("Please enter amount: ");
-        amount = this.reader.nextInt();
+        amount = Integer.parseInt(this.reader.nextLine());
         System.out.println(machineProvider.getMachineAdmin().addProduct(createProduct(name, price), amount).message);
         System.out.println("------------------------");
     }
@@ -184,10 +185,10 @@ public class CliOperator {
         for(UsdCoinType coinType : UsdCoinType.values()){
             System.out.println(coinType.name() + " - " + coinType.getValue());
         }
-        input = this.reader.next();
+        input = this.reader.nextLine();
         UsdCoinType coinType = UsdCoinType.valueOf(input.toUpperCase());
         System.out.println("Please enter amount: ");
-        amount = this.reader.nextInt();
+        amount = Integer.parseInt(this.reader.nextLine());
         machineProvider.getMachineAdmin().getMachineBalance().updateCoinTypeAmount(coinType, amount);
     }
 

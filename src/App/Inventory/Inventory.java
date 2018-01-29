@@ -33,7 +33,7 @@ import java.util.*;
         else {
             InventoryProduct ip = new InventoryProduct(product, amount);
             this.inventory.put(productName, ip);
-            return new Status(productName + "has been added successfully", true);
+            return new Status(productName + " has been added successfully", true);
         }
     }
 

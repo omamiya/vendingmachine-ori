@@ -28,7 +28,7 @@ public class Machine implements IMachine, IMachineAdmin{
 
     private IInventory initInventory(){
         ProductFactory productFactory = new ProductFactory();
-        IProduct cola = productFactory.createProduct("Coca Cola", 120);
+        IProduct cola = productFactory.createProduct("Coca Cola", 121);
         IProduct sprite = productFactory.createProduct("Sprite", 125);
         IProduct fanta = productFactory.createProduct("Fanta", 129);
         IProduct[] products = {cola, sprite, fanta};
