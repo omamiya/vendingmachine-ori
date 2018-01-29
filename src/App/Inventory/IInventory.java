@@ -10,13 +10,8 @@ import java.util.List;
  */
 public interface IInventory {
     List<IProduct> getProductsList();
-
-    IProduct getProductByName(String productName);
-
     Status addProductToInventory(IProduct product, Integer amount);
-
     Status updateProductAmount(IProduct product, Integer amount);
-
     Boolean isProductAvailable(IProduct product);
-
+    Integer getProductAmount(IProduct product);
 }

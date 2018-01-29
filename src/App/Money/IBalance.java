@@ -11,11 +11,10 @@ import java.util.Map;
  */
 public interface IBalance {
     Integer getTotalBalance();
-    Status addCoin(UsdCoinType usdCoinType);
-    Status reduceCoin(UsdCoinType usdCoinType);
     Integer getAmountOfCoinType(UsdCoinType usdCoinType);
     void addBalance(IBalance balanceToAdd);
-    void updateBalance(UsdCoinType usdCoinType, Integer dif);
+    void reduceBalance(IBalance balanceToReduce);
+    void updateCoinTypeAmount(UsdCoinType usdCoinType, Integer dif);
     void emptyBalance();
 }
 

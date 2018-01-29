@@ -7,5 +7,5 @@ import java.util.HashMap;
  */
 public class BalanceFactory {
     public IBalance createCustomerBalance(){ return new Balance(); }
-    public IBalance createMachineBalance(HashMap<UsdCoinType, Integer> balance){ return new Balance(balance); }
+    public IBalance createCustomBalance(HashMap<UsdCoinType, Integer> balance){ return new Balance(balance); }
 }

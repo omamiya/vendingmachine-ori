@@ -11,7 +11,7 @@ public class ChangeCalculator {
         for (UsdCoinType coinType : UsdCoinType.values()){
             Integer amountOfCoins = totalChange / coinType.getValue();
             if (amountOfCoins > 0 && machineBalance.getAmountOfCoinType(coinType) >= amountOfCoins){
-                change.updateBalance(coinType, amountOfCoins);
+                change.updateCoinTypeAmount(coinType, amountOfCoins);
                 totalChange = totalChange % coinType.getValue();
             }
         }

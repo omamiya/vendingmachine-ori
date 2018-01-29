@@ -46,11 +46,16 @@ public class Machine implements IMachine, IMachineAdmin{
         defaultBalance.put(UsdCoinType.QUARTER, 1);
         defaultBalance.put(UsdCoinType.DOLLAR, 1);
 
-        return bf.createMachineBalance(defaultBalance);
+        return bf.createCustomBalance(defaultBalance);
     }
 
     @Override
     public IBalance getMachineBalance() { return this.machineBalance; }
+
+    @Override
+    public Integer getProductAmount(IProduct product) {
+        return this.inventory.getProductAmount(product);
+    }
 
     public IBalance getCustomerBalance(){ return this.customerBalance; }
 
@@ -83,6 +88,7 @@ public class Machine implements IMachine, IMachineAdmin{
                 return new Status(noChangeMsg, false);
             }
             inventory.updateProductAmount(product, -1);
+            machineBalance.reduceBalance(change);
             addMoney(this.customerBalance);
             this.customerBalance = change;
             return new Status("Ok", true);
@@ -113,14 +119,7 @@ public class Machine implements IMachine, IMachineAdmin{
     }
 
     @Override
-    public Status addProducts(IProduct product, Integer amount) {
-        this.inventory.addProductToInventory(product, amount);
-        return new Status("Ok", true);
-    }
-
-    @Override
-    public Status addChange(IBalance change) {
-        machineBalance.addBalance(change);
-        return new Status("Ok", true);
+    public Status addProduct(IProduct product, Integer amount) {
+        return this.inventory.addProductToInventory(product, amount);
     }
 }

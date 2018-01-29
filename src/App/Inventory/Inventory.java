@@ -26,11 +26,6 @@ import java.util.*;
     }
 
     @Override
-    public IProduct getProductByName(String productName) {
-        return inventory.get(productName).product;
-    }
-
-    @Override
     public Status addProductToInventory(IProduct product, Integer amount) {
         String productName ;
         productName = product.getProductName();
@@ -57,6 +52,11 @@ import java.util.*;
      @Override
      public Boolean isProductAvailable(IProduct product) {
         return this.inventory.get(product.getProductName()).amount > 0;
+    }
+
+     @Override
+     public Integer getProductAmount(IProduct product) {
+         return this.inventory.get(product.getProductName()).amount;
     }
 
  }

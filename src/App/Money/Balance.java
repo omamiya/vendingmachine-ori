@@ -33,43 +33,21 @@ Map<UsdCoinType, Integer> balance;
     }
 
     @Override
-    public Status addCoin(UsdCoinType usdCoinType) {
-        updateBalance(usdCoinType, 1);
-        return new Status("Ok", true);
-    }
-
-    @Override
-    public Status reduceCoin(UsdCoinType usdCoinType) {
-        boolean status = false;
-        String message;
-        if (this.balance.get(usdCoinType) <= 0){
-            message = "error";
-            status = false;
-        }
-        else {
-            updateBalance(usdCoinType, -1);
-            message = "ok";
-            status = true;
-        }
-        return new Status(message, status);
-    }
-
-    @Override
     public Integer getAmountOfCoinType(UsdCoinType usdCoinType) {
         return this.balance.get(usdCoinType);
     }
 
     @Override
     public void addBalance(IBalance balanceToAdd) {
-        Integer amountForCoin;
-        for (UsdCoinType coinType : UsdCoinType.values()) {
-            amountForCoin = balanceToAdd.getAmountOfCoinType(coinType);
-            updateBalance(coinType, amountForCoin);
-        }
+        updateBalance(balanceToAdd, 1);
+    }
+
+    public void reduceBalance(IBalance balanceToReduce) {
+        updateBalance(balanceToReduce, -1);
     }
 
     @Override
-    public void updateBalance(UsdCoinType usdCoinType, Integer dif){
+    public void updateCoinTypeAmount(UsdCoinType usdCoinType, Integer dif){
         Integer amount = this.balance.containsKey(usdCoinType) ? this.balance.get(usdCoinType) : 0;
         this.balance.put(usdCoinType, amount + dif);
     }
@@ -85,5 +63,13 @@ Map<UsdCoinType, Integer> balance;
         this.balance.put(UsdCoinType.DIME, 0);
         this.balance.put(UsdCoinType.QUARTER, 0);
         this.balance.put(UsdCoinType.DOLLAR, 0);
+    }
+
+    private void updateBalance(IBalance balanceToUpdate, Integer action){
+        Integer amountForCoin;
+        for (UsdCoinType coinType : UsdCoinType.values()) {
+            amountForCoin = balanceToUpdate.getAmountOfCoinType(coinType) * action;
+            updateCoinTypeAmount(coinType, amountForCoin);
+        }
     }
 }
