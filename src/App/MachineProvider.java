@@ -3,15 +3,15 @@ package App;
 /**
  * Created by orymamia on 21/01/2018.
  */
-class MachineProvider {
+public class MachineProvider {
     IMachine machine;
     IMachineAdmin admin;
 
-    IMachine getMachine() {
+    public IMachine getMachine() {
         return this.machine;
     }
 
-    IMachineAdmin getMachineAdmin() {
+    public IMachineAdmin getMachineAdmin() {
         return this.admin;
     }
 

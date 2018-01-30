@@ -1,10 +1,14 @@
 package App;
 
+import App.AdminAction.*;
 import App.Money.IBalance;
 import App.Money.UsdCoinType;
 import App.Product.IProduct;
 import App.Product.ProductFactory;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
@@ -100,14 +104,6 @@ public class CliOperator {
         System.out.println("4. Logout");
     }
 
-    void printAdminMainMenu(){
-            System.out.println("1. Reload Products");
-            System.out.println("2. Reload Change");
-            System.out.println("3. Check Machine Balance");
-            System.out.println("4. Check Machine Inventory");
-            System.out.println("5. Logout");
-    }
-
     void userFlow(){
         Status status;
         Integer selection;
@@ -137,73 +133,19 @@ public class CliOperator {
 
     void adminFlow(){
         Integer selection;
+        Map<Integer, AdminAction> adminActions = new HashMap<>();
+
+        adminActions.put(AdminActionTypes.ADD_PRODUCT.getValue(), new AddProduct(this.machineProvider, this.productFactory, this.reader));
+        adminActions.put(AdminActionTypes.ADD_COIN.getValue(), new AddCoin(this.machineProvider, this.reader));
+        adminActions.put(AdminActionTypes.PRINT_BALANCE.getValue(), new PrintBalance(this.machineProvider.getMachineAdmin().getMachineBalance()));
+        adminActions.put(AdminActionTypes.PRINT_INVENTORY.getValue(), new PrintInventory(this.machineProvider));
+
         do {
-            printAdminMainMenu();
-            selection = Integer.parseInt(this.reader.nextLine());
-            switch (selection) {
-                case 1:
-                    addProduct();
-                    break;
-                case 2:
-                    addCoin();
-                    break;
-                case 3:
-                    printBalance(machineProvider.getMachineAdmin().getMachineBalance());
-                    break;
-                case 4:
-                    printInventory();
-                    break;
-                case 5:
-                    break;
+            for (AdminAction action : adminActions.values()){
+                action.printDescription();
             }
+            selection = Integer.parseInt(this.reader.nextLine());
+            if(selection != 5) adminActions.get(selection).invoke();
         } while(selection != 5);
-    }
-
-    private void addProduct() {
-        String name;
-        Integer price;
-        Integer amount;
-        System.out.println("please enter product name: ");
-//        this.reader.nextLine(); // how to overcome the reading of the previous line
-        name = this.reader.nextLine();
-        System.out.println("please enter product price: ");
-        price = Integer.parseInt(this.reader.nextLine());
-        System.out.println("Please enter amount: ");
-        amount = Integer.parseInt(this.reader.nextLine());
-        System.out.println(machineProvider.getMachineAdmin().addProduct(createProduct(name, price), amount).message);
-        System.out.println("------------------------");
-    }
-
-    private IProduct createProduct(String name, Integer price){
-        return this.productFactory.createProduct(name, price);
-    }
-
-    private void addCoin(){
-        Integer amount;
-        String input;
-        System.out.println("Please choose one of the coins: \n");
-        for(UsdCoinType coinType : UsdCoinType.values()){
-            System.out.println(coinType.name() + " - " + coinType.getValue());
-        }
-        input = this.reader.nextLine();
-        UsdCoinType coinType = UsdCoinType.valueOf(input.toUpperCase());
-        System.out.println("Please enter amount: ");
-        amount = Integer.parseInt(this.reader.nextLine());
-        machineProvider.getMachineAdmin().getMachineBalance().updateCoinTypeAmount(coinType, amount);
-    }
-
-    private void printBalance(IBalance balance){
-        for (UsdCoinType coinType : UsdCoinType.values()) {
-            System.out.println(coinType.name() + " - " + balance.getAmountOfCoinType(coinType));
-        }
-    }
-
-    private void printInventory(){
-        List<IProduct> productList = machineProvider.getMachine().getAllProducts();
-        System.out.println("Inventory: ");
-        for (IProduct product : productList) {
-            System.out.println(product.getProductName() + " - " + machineProvider.getMachineAdmin().getProductAmount(product));
-        }
-        System.out.println("--------------------");
     }
 }
