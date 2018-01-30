@@ -29,12 +29,13 @@ import java.util.*;
     public Status addProductToInventory(IProduct product, Integer amount) {
         String productName ;
         productName = product.getProductName();
-        if (this.inventory.containsKey(productName)){ return new Status("The product is already exist", false); }
-        else {
-            InventoryProduct ip = new InventoryProduct(product, amount);
-            this.inventory.put(productName, ip);
-            return new Status(productName + " has been added successfully", true);
+        if (this.inventory.containsKey(productName)) {
+            amount += this.inventory.get(productName).amount;
+            product = this.inventory.get(productName).product;
         }
+        InventoryProduct ip = new InventoryProduct(product, amount);
+        this.inventory.put(productName, ip);
+        return new Status(productName + " has been added successfully", true);
     }
 
      @Override
