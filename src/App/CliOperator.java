@@ -9,6 +9,7 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class CliOperator {
+    private ProductFactory productFactory = new ProductFactory();
     private MachineProvider machineProvider;
     private Scanner reader = new Scanner(System.in);
 
@@ -174,8 +175,7 @@ public class CliOperator {
     }
 
     private IProduct createProduct(String name, Integer price){
-        ProductFactory pf = new ProductFactory();
-        return pf.createProduct(name, price);
+        return this.productFactory.createProduct(name, price);
     }
 
     private void addCoin(){

@@ -11,8 +11,5 @@ public class Status {
     public Status(String message, boolean status){
         this.message = message;
         this.status = status;
-    };
-
-
-
+    }
 }
