@@ -91,7 +91,7 @@ public class Machine implements IMachine, IMachineAdmin{
             machineBalance.reduceBalance(change);
             addMoney(this.customerBalance);
             this.customerBalance = change;
-            return new Status("Ok", true);
+            return new Status("Enjoy!!!", true);
         }
         return status;
     }

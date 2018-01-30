@@ -1,16 +1,12 @@
 package App;
 
 import App.AdminAction.*;
-import App.Money.IBalance;
-import App.Money.UsdCoinType;
-import App.Product.IProduct;
 import App.Product.ProductFactory;
+import App.UserAction.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
 
 public class CliOperator {
     private ProductFactory productFactory = new ProductFactory();
@@ -49,85 +45,19 @@ public class CliOperator {
 
     }
 
-    IProduct getProductSelectionFromUser(List<IProduct> products){
-        System.out.println("Enter a number: ");
-        Integer selection = Integer.parseInt(this.reader.nextLine());
-        IProduct product = products.get(selection - 1);
-        System.out.println("Your selection is: " + product.getProductName() + ". Please insert " + product.getProductPrice() + "cents");
-        return product;
-    }
-
-    void collectMoney(IProduct product){
-        IBalance customerBalance = machineProvider.getMachine().getCustomerBalance();
-        String input;
-        if(customerBalance.getTotalBalance() < product.getProductPrice()){
-            System.out.println("Please choose one of the coins: \n");
-            for(UsdCoinType coinType : UsdCoinType.values()){
-                System.out.println(coinType.name() + " - " + coinType.getValue());
-            }
-            System.out.println("Total: " + customerBalance.getTotalBalance());
-        }
-        while(customerBalance.getTotalBalance() < product.getProductPrice()){
-            input = this.reader.nextLine();
-            customerBalance.updateCoinTypeAmount(UsdCoinType.valueOf(input.toUpperCase()), 1);
-            System.out.println("Total: " + customerBalance.getTotalBalance());
-        }
-        System.out.println("Processing....");
-        try {
-            TimeUnit.SECONDS.sleep(2);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    void printProductsMenu(List<IProduct> products){
-        int i = 1;
-        System.out.println("Menu: ");
-        System.out.println("Please select a product");
-        for(IProduct product : products){
-            System.out.println(i + ". " + product.getProductName() + " " + product.getProductPrice() + " cents");
-            i++;
-        }
-    }
-
-    Status buyProduct(){
-        printProductsMenu(this.machineProvider.getMachine().getAllProducts());
-        IProduct product = getProductSelectionFromUser(this.machineProvider.getMachine().getAllProducts());
-        collectMoney(product);
-        return this.machineProvider.getMachine().purchaseProduct(product);
-    }
-
-    void printUserMainMenu(){
-        System.out.println("1. Buy a Product");
-        System.out.println("2. Check Balance");
-        System.out.println("3. Withdraw Money");
-        System.out.println("4. Logout");
-    }
-
     void userFlow(){
-        Status status;
         Integer selection;
+        Map<Integer, UserAction> userActions = new HashMap<>();
+        userActions.put(UserActionTypes.BUY_PRODUCT.getValue(), new BuyProduct(this.machineProvider, this.reader));
+        userActions.put(UserActionTypes.CHECK_BALANCE.getValue(), new CheckBalance(this.machineProvider));
+        userActions.put(UserActionTypes.WITHDRAW_MONEY.getValue(), new WithdrawMoney(this.machineProvider));
 
         do {
-            printUserMainMenu();
-            selection = Integer.parseInt(this.reader.nextLine());
-
-            switch (selection) {
-                case 1:
-                    status = buyProduct();
-                    if (!status.status) {
-                        System.out.println(status.message + "\n");
-                    } else System.out.println("Enjoy!!! \n");
-                    break;
-                case 2:
-                    System.out.println("Your Total Balance is: " + machineProvider.getMachine().getCustomerBalance().getTotalBalance());
-                    break;
-                case 3:
-                    machineProvider.getMachine().emptyCustomerBalance();
-                    break;
-                case 4:
-                    break;
+            for (UserAction action : userActions.values()){
+                action.printDescription();
             }
+            selection = Integer.parseInt(this.reader.nextLine());
+            if(selection != 4) userActions.get(selection).invoke();
         } while(selection != 4);
     }
 
