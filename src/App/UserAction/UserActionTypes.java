@@ -6,7 +6,8 @@ package App.UserAction;
 public enum UserActionTypes {
     BUY_PRODUCT(1),
     CHECK_BALANCE(2),
-    WITHDRAW_MONEY(3);
+    WITHDRAW_MONEY(3),
+    LOGOUT(4);
 
     private int value;
 

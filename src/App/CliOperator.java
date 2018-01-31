@@ -51,13 +51,14 @@ public class CliOperator {
         userActions.put(UserActionTypes.BUY_PRODUCT.getValue(), new BuyProduct(this.machineProvider, this.reader));
         userActions.put(UserActionTypes.CHECK_BALANCE.getValue(), new CheckBalance(this.machineProvider));
         userActions.put(UserActionTypes.WITHDRAW_MONEY.getValue(), new WithdrawMoney(this.machineProvider));
+        userActions.put(UserActionTypes.LOGOUT.getValue(), new UserLogout());
 
         do {
             for (UserAction action : userActions.values()){
                 action.printDescription();
             }
             selection = Integer.parseInt(this.reader.nextLine());
-            if(selection != 4) userActions.get(selection).invoke();
+            userActions.get(selection).invoke();
         } while(selection != 4);
     }
 
@@ -69,13 +70,14 @@ public class CliOperator {
         adminActions.put(AdminActionTypes.ADD_COIN.getValue(), new AddCoin(this.machineProvider, this.reader));
         adminActions.put(AdminActionTypes.PRINT_BALANCE.getValue(), new PrintBalance(this.machineProvider.getMachineAdmin().getMachineBalance()));
         adminActions.put(AdminActionTypes.PRINT_INVENTORY.getValue(), new PrintInventory(this.machineProvider));
+        adminActions.put(AdminActionTypes.LOGOUT.getValue(), new AdminLogout());
 
         do {
             for (AdminAction action : adminActions.values()){
                 action.printDescription();
             }
             selection = Integer.parseInt(this.reader.nextLine());
-            if(selection != 5) adminActions.get(selection).invoke();
+            adminActions.get(selection).invoke();
         } while(selection != 5);
     }
 }
